@@ -6,7 +6,8 @@ import it.unive.dais.po1.game.carte.CarteATerra;
 import it.unive.dais.po1.game.giocatori.Giocatore;
 
 public class BriscolaAQuattro extends Briscola {
-    private Giocatore g1, g2, g3, g4;
+    private Giocatore[] g;
+    private int primoDIMano;
 
     public BriscolaAQuattro(Giocatore g1, Giocatore g2, Giocatore g3, Giocatore g4) {
         if(g1==g2 || g1 == g3 || g1 == g4
@@ -14,10 +15,12 @@ public class BriscolaAQuattro extends Briscola {
                 || g3==g4) {
             throw new IllegalArgumentException("Due o più giocatore sono la stessa istanza di un giocatore");
         }
-        this.g1 = g1;
-        this.g2 = g2;
-        this.g3 = g3;
-        this.g4 = g4;
+        primoDIMano = 0;
+        g = new Giocatore[4];
+        this.g[0] = g1;
+        this.g[1] = g2;
+        this.g[2] = g3;
+        this.g[3] = g4;
     }
 /*
     private static boolean add(ListaCarte l, Card c) {
@@ -25,22 +28,13 @@ public class BriscolaAQuattro extends Briscola {
         else { l.add(c); return true; }
     }
 */
-    public Giocatore getLastPlayer() {
-        return g4;
-    }
 
     public Giocatore partita() {
-        TavoloQuattroGiocatori tavolo = new TavoloQuattroGiocatori(g1, g2, g3, g4);
+        TavoloQuattroGiocatori tavolo = new TavoloQuattroGiocatori(g[0], g[1], g[2], g[3]);
         mazzo.shuffle();
-        boolean accepted = true;
-        accepted = accepted && getInitialCards(g1, accepted);
-        accepted = accepted && getInitialCards(g2, accepted);
-        accepted = accepted && getInitialCards(g3, accepted);
-        accepted = accepted && getInitialCards(g4, accepted);
-        if( ! accepted) {
-            System.err.println("Il giocatore ha rifiutato la carta");
-            return null;
-        }
+
+        distribuisciCarteInit(mazzo,3,g[0],g[1],g[2],g[3]);
+
         briscola = mazzo.pop();
         boolean mazzoIsEmpty = false;
         while(! mazzoIsEmpty) {
@@ -58,19 +52,19 @@ public class BriscolaAQuattro extends Briscola {
         }
         for(int i = 0; i < 3; i++)
             giocaMano(tavolo);
-        int punteggiog1 = contaPunti(g1.getCarteVinte()) + contaPunti(g3.getCarteVinte());
-        int punteggiog2 = contaPunti(g2.getCarteVinte()) + contaPunti(g4.getCarteVinte());
-        g1.dropAllCards(3, 40);
-        g2.dropAllCards(3, 40);
-        g3.dropAllCards(3, 40);
-        g4.dropAllCards(3, 40);
+        int punteggiog1 = contaPunti(g[0].getCarteVinte()) + contaPunti(g[2].getCarteVinte());
+        int punteggiog2 = contaPunti(g[1].getCarteVinte()) + contaPunti(g[3].getCarteVinte());
+        g[0].dropAllCards(3, 40);
+        g[1].dropAllCards(3, 40);
+        g[2].dropAllCards(3, 40);
+        g[3].dropAllCards(3, 40);
         if(punteggiog1 > punteggiog2) {
             System.out.println("Ha vinto la squadra 1");
-            return g1;
+            return g[0];
         }
         else if(punteggiog1 < punteggiog2) {
             System.out.println("Ha vinto la squadra 2");
-            return g2;
+            return g[1];
         }
         else {
             System.out.println("Patta");
@@ -79,46 +73,40 @@ public class BriscolaAQuattro extends Briscola {
     }
 
     private Giocatore giocaMano(TavoloQuattroGiocatori tavolo) {
-        Giocatore primoDiMano = tavolo.get(0);
-        Giocatore secondoDiMano = tavolo.get(1);
-        Giocatore terzoDiMano = tavolo.get(2);
-        Giocatore quartoDiMano = tavolo.get(3);
+        int turn = primoDIMano;
 
         CarteATerra c = new CarteATerra(4);
-        Card prima = primoDiMano.getCard(c, this);
+        Card prima = g[turn].getCard(c, this);
         c.add(prima);
-        Card seconda = secondoDiMano.getCard(c, this);
+        Card seconda = g[turn+1%4].getCard(c, this);
         c.add(seconda);
-        Card terza = terzoDiMano.getCard(c, this);
+        Card terza = g[turn+2%4].getCard(c, this);
         c.add(terza);
-        Card quarta = quartoDiMano.getCard(c, this);
+        Card quarta = g[turn+3%4].getCard(c, this);
         c.add(quarta);
         if(maggiore(prima, seconda) && maggiore(prima, quarta)) {
-            primoDiMano.takeCards(c);
+            g[turn%4].takeCards(c);
             if(prende(terza, prima))
                 tavolo.setPrimoDiMano(2);
             //else
             //    tavolo.setPrimoDiMano(0);
-            return primoDiMano;
+            return g[turn%4];
         }
         else if(prende(seconda, prima) && maggiore(seconda, terza)){
-            secondoDiMano.takeCards(c);
+            g[(turn+1)%4].takeCards(c);
             tavolo.setPrimoDiMano(1);
-            return secondoDiMano;
+            return g[(turn+1)%4];
         }
         else if( (  (prende(terza, seconda) && prende(seconda,prima)) || prende(terza, prima))
                 && maggiore(terza, quarta)){
-            terzoDiMano.takeCards(c);
+            g[(turn+2)%4].takeCards(c);
             tavolo.setPrimoDiMano(2);
-            return terzoDiMano;
+            return g[(turn+2)%4];
         }
         else {
-            quartoDiMano.takeCards(c);
+            g[(turn+3)%4].takeCards(c);
             tavolo.setPrimoDiMano(3);
-            return quartoDiMano;
+            return g[(turn+3)%4];
         }
     }
-
-
-
 }

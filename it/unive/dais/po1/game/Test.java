@@ -27,7 +27,7 @@ public class Test {
         Briscola b = new Random().nextBoolean() ?
                     new BriscolaADue(partecipanti[0], partecipanti[1]) :
                     new BriscolaAQuattro(partecipanti[0], partecipanti[1], partecipanti[2], partecipanti[3]);
-        b.partita();
+        b1.partita();
         BriscolaADue b2 = new BriscolaADue(partecipanti[0], partecipanti[1]);
         b2.prende(1, 2);
     }

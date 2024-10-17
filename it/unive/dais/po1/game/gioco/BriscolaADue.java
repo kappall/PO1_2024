@@ -18,7 +18,6 @@ public class BriscolaADue extends Briscola {
 
 
     /**
-     * @requires g1!=null && g2!=null && g1!=g2 //precondizione
      * @ensures return==g1 || return==g2 || return==null
      */
     public Giocatore partita() {
