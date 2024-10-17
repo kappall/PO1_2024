@@ -9,6 +9,9 @@ public class BriscolaADue extends Briscola {
     private Giocatore g1, g2;
 
     public BriscolaADue(Giocatore g1, Giocatore g2) {
+        if(g1==g2){
+            throw new IllegalArgumentException("I due giocatori sono la stessa istanza di un giocatore");
+        }
         this.g1 = g1;
         this.g2 = g2;
     }

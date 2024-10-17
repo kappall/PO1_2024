@@ -9,6 +9,11 @@ public class BriscolaAQuattro extends Briscola {
     private Giocatore g1, g2, g3, g4;
 
     public BriscolaAQuattro(Giocatore g1, Giocatore g2, Giocatore g3, Giocatore g4) {
+        if(g1==g2 || g1 == g3 || g1 == g4
+                || g2 == g3 || g2 == g4
+                || g3==g4) {
+            throw new IllegalArgumentException("Due o più giocatore sono la stessa istanza di un giocatore");
+        }
         this.g1 = g1;
         this.g2 = g2;
         this.g3 = g3;
