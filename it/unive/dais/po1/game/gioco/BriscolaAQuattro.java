@@ -2,7 +2,7 @@ package it.unive.dais.po1.game.gioco;
 
 import it.unive.dais.po1.game.carte.Card;
 import it.unive.dais.po1.game.carte.CarteATerra;
-import it.unive.dais.po1.game.carte.ListaCarte;
+// import it.unive.dais.po1.game.carte.ListaCarte;
 import it.unive.dais.po1.game.giocatori.Giocatore;
 
 public class BriscolaAQuattro extends Briscola {
@@ -14,12 +14,12 @@ public class BriscolaAQuattro extends Briscola {
         this.g3 = g3;
         this.g4 = g4;
     }
-
+/*
     private static boolean add(ListaCarte l, Card c) {
         if(c==null) return false;
         else { l.add(c); return true; }
     }
-
+*/
     public Giocatore getLastPlayer() {
         return g4;
     }
