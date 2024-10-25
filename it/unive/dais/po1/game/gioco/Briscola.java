@@ -21,11 +21,13 @@ abstract public class Briscola {
 
      abstract public Giocatore partita();
 
-     protected final void distribuisciCarteInit(Mazzo mazzo, int n, Giocatore... giocatori){
-         for(Giocatore g : giocatori){
+     protected final void distribuisciCarteInit(Mazzo mazzo, int n, int first, Giocatore... giocatori){
+/*
+         for(int g = first; g < giocatori; g = (g+1)%(n+1)){
              for(int i = 0; i < n; ++i)
                  g.giveCard(mazzo.pop());
-         }
+         }*/
+
      }
 
      public boolean prende(Card first, Card second) {

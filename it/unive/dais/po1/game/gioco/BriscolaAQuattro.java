@@ -33,15 +33,13 @@ public class BriscolaAQuattro extends Briscola {
         TavoloQuattroGiocatori tavolo = new TavoloQuattroGiocatori(g[0], g[1], g[2], g[3]);
         mazzo.shuffle();
 
-        distribuisciCarteInit(mazzo,3,g[0],g[1],g[2],g[3]);
+        //distribuisciCarteInit(mazzo,3,g[0],g[1],g[2],g[3]);
 
         briscola = mazzo.pop();
         boolean mazzoIsEmpty = false;
         while(! mazzoIsEmpty) {
             Giocatore vincitore = giocaMano(tavolo);
-            tavolo.get(0).giveCard(mazzo.pop());
-            tavolo.get(1).giveCard(mazzo.pop());
-            tavolo.get(2).giveCard(mazzo.pop());
+
             Card next = mazzo.pop();
             if(next!=null)
                 tavolo.get(3).giveCard(next);

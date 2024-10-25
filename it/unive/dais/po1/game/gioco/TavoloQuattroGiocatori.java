@@ -6,7 +6,7 @@ import it.unive.dais.po1.game.giocatori.Giocatore;
 class TavoloQuattroGiocatori {
     private Giocatore[] giocatori = new Giocatore[4];
 
-    TavoloQuattroGiocatori(Giocatore g1, Giocatore g2, Giocatore g3, Giocatore g4) {
+    public TavoloQuattroGiocatori(Giocatore g1, Giocatore g2, Giocatore g3, Giocatore g4) {
         giocatori[0] = g1;
         giocatori[1] = g2;
         giocatori[2] = g3;
